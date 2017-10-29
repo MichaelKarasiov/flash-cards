@@ -9,13 +9,13 @@ class DataBaseManager
 public:
     enum class InitStatus
     {
-        Ok,
+        Ok = 1,
         Error
     };
     DataBaseManager();
     InitStatus initiate();
 
-    bool addQuestion(const QString &question_title_txt, const QString &question_txt, const QString &answer_txt);
+    InitStatus addQuestion(const QString &question_title_txt, const QString &question_txt, const QString &answer_txt);
 
     QSqlDatabase& getDatabase() {return mDatabase;}
 private:

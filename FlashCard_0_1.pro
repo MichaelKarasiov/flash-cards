@@ -1,4 +1,4 @@
-QT += core sql
+QT += core sql quick quickcontrols2
 QT -= gui
 
 CONFIG += c++11
@@ -31,3 +31,6 @@ HEADERS += \
     DataBaseManager.h \
     SettingsManager.h \
     ui/ui_controller.h
+
+RESOURCES += \
+    resources.qrc

@@ -4,6 +4,7 @@
 #include <QtSql/QSqlError>
 
 #include <QVariant>
+#include <QDateTime>
 
 #include <SettingsManager.h>
 #include <QDebug>
@@ -30,30 +31,39 @@ DataBaseManager::InitStatus DataBaseManager::initiate()
     if(!result)
     {
         qDebug() << query.lastError();
+        return DataBaseManager::InitStatus::Error;
     }
     else
         qDebug() << __FUNCTION__ << " : success!";
     return InitStatus::Ok;
 }
 
-bool DataBaseManager::addQuestion(const QString &question_title_txt, const QString& question_txt)
+DataBaseManager::InitStatus DataBaseManager::addQuestion(const QString &question_title_txt, const QString& question_txt, const QString& question_answer_txt)
 {
 
     QSqlQuery query(mDatabase);
      query.prepare(
-              "INSERT INTO [flash_cards] (question_title, question) VALUES (:q_title, :q_text)");
+              "INSERT INTO [flash_cards] (question_title, question, answer, time_create, time_change)"
+              " VALUES (:q_title, :q_text, :q_answer, :q_time_create, :q_time_change)");
 
     qDebug() << question_title_txt;
     qDebug() << question_txt;
+    qDebug() << question_answer_txt;
+
     query.bindValue(":q_title", (question_title_txt));
     query.bindValue(":q_text", (question_txt));
+    query.bindValue(":q_answer", (question_answer_txt));
+    query.bindValue(":q_time_create", QDateTime::currentDateTime().toString());
+    query.bindValue(":q_time_change", QDateTime::currentDateTime().toString()); //TODO time changed have to be realy time changed
 
     int result = query.exec();
     if(!result)
     {
         qDebug() << query.lastError();
+        return DataBaseManager::InitStatus::Error;
     }
     else
         qDebug() << __FUNCTION__ << " : success!";
+
+    return DataBaseManager::InitStatus::Ok;
 }
-bool DataBaseManager::addAnswer(int qustion_id, QString& answer_txt){}
