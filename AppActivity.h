@@ -14,6 +14,8 @@ public:
     explicit AppActivity();
     Q_INVOKABLE bool add_q_data(const QString& q_title, const QString& q_question, const QString& q_answer)
     {
+        if(q_title.isEmpty() || q_question.isEmpty() || q_answer.isEmpty())
+            return false;
         if(m_DB_Manager.addQuestion(q_title, q_question, q_answer) == DataBaseManager::InitStatus::Ok)
             return true;
         else return false;
