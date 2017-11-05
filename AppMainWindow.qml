@@ -122,7 +122,7 @@ ApplicationWindow {
                     height: stackView.height/3.3
                     anchors.horizontalCenter: parent.horizontalCenter
                     horizontalAlignment: Qt.AlignHCenter
-
+                    wrapMode: Text.WordWrap
                 }
                 TextArea
                 {
@@ -132,6 +132,7 @@ ApplicationWindow {
                     placeholderText: "Answer"
                     anchors.horizontalCenter: parent.horizontalCenter
                     horizontalAlignment: Qt.AlignHCenter
+                    wrapMode: Text.WordWrap
                 }
                 Button
                 {
@@ -139,6 +140,7 @@ ApplicationWindow {
                     height: q_title.height
                     width: parent.width / 3
                     text: "Save"
+                    highlighted: true
 
                     anchors.horizontalCenter: parent.horizontalCenter
 
