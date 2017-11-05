@@ -36,3 +36,4 @@ RESOURCES += \
     resources.qrc
 #0
 #1
+#2
