@@ -2,6 +2,6 @@
 #include <QSettings>
 
 SettingsManager::SettingsManager():
-    m_DataBasePath("/home/mi/userCards.sqlite") //TODO change path
+    m_DataBasePath("./userCards.sqlite") //TODO change path
 {
 }

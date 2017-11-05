@@ -26,7 +26,9 @@ int main(int argc, char *argv[])
         settings.setValue("style", style);
     else
         QQuickStyle::setStyle(settings.value("style").toString());
-
+    //TODO test
+    QQuickStyle::setStyle("Material");
+    //TODO end test
     QQmlApplicationEngine engine;
     engine.load(QUrl("qrc:/AppMainWindow.qml"));
     if (engine.rootObjects().isEmpty())
