@@ -3,23 +3,36 @@
 
 #include <QString>
 #include <QSqlDatabase>
+#include <memory>
+
+#include "Types.h"
 
 class DataBaseManager
 {
 public:
-    enum class InitStatus
+    enum class Status
     {
         Ok = 1,
         Error
     };
-    DataBaseManager();
-    InitStatus initiate();
 
-    InitStatus addQuestion(const QString &question_title_txt, const QString &question_txt, const QString &answer_txt);
+    Status initiate();
 
+    Status addQuestion(const QString &question_title_txt, const QString &question_txt, const QString &answer_txt, int topic_id);
+    Status addTopic(const QString &topic_name);
+
+    std::shared_ptr<QList<flash_cards::Topic>> getTopics();
     QSqlDatabase& getDatabase() {return mDatabase;}
+
+    static DataBaseManager& getInstance();
 private:
-    QSqlDatabase mDatabase;
+     DataBaseManager();
+     ~DataBaseManager() = default;
+     DataBaseManager(const DataBaseManager& ) = default;
+     DataBaseManager& operator=(const DataBaseManager&) = default;
+     QSqlDatabase mDatabase;
+     static DataBaseManager *m_instance;
+
 };
 
 #endif // DATABASEMANAGER_H

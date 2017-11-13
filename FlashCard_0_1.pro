@@ -13,7 +13,9 @@ SOURCES += main.cpp \
     AppActivity.cpp \
     DataBaseManager.cpp \
     SettingsManager.cpp \
-    ui/ui_controller.cpp
+    ui/ui_controller.cpp \
+    TopicsModel.cpp \
+    TopicsData.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -30,7 +32,10 @@ HEADERS += \
     AppActivity.h \
     DataBaseManager.h \
     SettingsManager.h \
-    ui/ui_controller.h
+    ui/ui_controller.h \
+    TopicsModel.h \
+    TopicsData.h \
+    Types.h
 
 RESOURCES += \
     resources.qrc

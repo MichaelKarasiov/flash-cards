@@ -16,7 +16,7 @@ public:
     {
         if(q_title.isEmpty() || q_question.isEmpty() || q_answer.isEmpty())
             return false;
-        if(m_DB_Manager.addQuestion(q_title, q_question, q_answer) == DataBaseManager::InitStatus::Ok)
+        if(DataBaseManager::getInstance().addQuestion(q_title, q_question, q_answer,current_topic_id) == DataBaseManager::Status::Ok)
             return true;
         else return false;
     }
@@ -35,7 +35,8 @@ private:
 //    AppActivity(const AppActivity&) = default;
 //    AppActivity(AppActivity&&) = default;
 //    AppActivity& operator =(const AppActivity&) = default;
-    DataBaseManager m_DB_Manager;
+
+    int current_topic_id;
 };
 
 #endif // APPACTIVITY_H
