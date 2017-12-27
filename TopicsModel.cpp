@@ -1,12 +1,14 @@
 #include "TopicsModel.h"
 
-TopicsModel::TopicsModel(QObject *parent):
+TopicsModel::TopicsModel(TopicsData *source, QObject *parent):
+    m_topics_source(*source),
     QAbstractListModel(parent)
 {
     m_roleNames = QAbstractListModel::roleNames();
 
-    m_roleNames.insert(Roles::Name, "Name");
-    m_roleNames.insert(Roles::ItemsCount, "Count");
+    m_roleNames.insert(Roles::Name, "name_");
+    m_roleNames.insert(Roles::ItemsCount, "count_");
+    m_roleNames.insert(Roles::Id, "id_");
 }
 
 
@@ -27,6 +29,9 @@ QVariant TopicsModel::data(const QModelIndex &index, int role) const
     case ItemsCount :
         value = m_topics_source[index.row()].it_count;
         break;
+    case Id :
+        value = m_topics_source[index.row()].id;
+        break;
     }
 
     return value;
@@ -44,8 +49,8 @@ QModelIndex TopicsModel::index(int row, int column, const QModelIndex &parent) c
     return createIndex(row, column);
 }
 
-//void TopicsModel::resetModel()
-//{
-//    beginResetModel();
-//    endResetModel();
-//}
+void TopicsModel::resetModel()
+{
+    beginResetModel();
+    endResetModel();
+}

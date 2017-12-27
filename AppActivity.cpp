@@ -1,9 +1,11 @@
 #include "AppActivity.h"
-
+#include <QDebug>
 AppActivity* AppActivity::m_instance = nullptr;
 
-AppActivity::AppActivity()
+AppActivity::AppActivity() :
+    topics_model(&topics_data)
 {
+    qDebug() << "TOPICS DATA SIZE: " << topics_data.size();
 }
 
 AppActivity::~AppActivity()

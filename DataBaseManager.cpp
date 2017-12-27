@@ -64,7 +64,7 @@ DataBaseManager::Status DataBaseManager::initiate()
     }
 }
 
-DataBaseManager::Status DataBaseManager::addQuestion(const QString &question_title_txt, const QString& question_txt, const QString& question_answer_txt, int topic_id)
+DataBaseManager::Status DataBaseManager::addQuestion(int topic_id, const QString &question_title_txt, const QString& question_txt, const QString& question_answer_txt)
 {
 
     QSqlQuery query(mDatabase);
@@ -140,7 +140,7 @@ std::shared_ptr<QList<flash_cards::Topic>> DataBaseManager::getTopics()
 
     const int ix_id       = rec.indexOf("id");
     const int ix_name     = rec.indexOf("name");
-    const int ix_count     = rec.indexOf("count");
+    const int ix_count    = rec.indexOf("count");
 
     while(query.next())
     {
@@ -154,3 +154,5 @@ std::shared_ptr<QList<flash_cards::Topic>> DataBaseManager::getTopics()
 
     return std::shared_ptr<QList<flash_cards::Topic>>(topicList);
 }
+
+

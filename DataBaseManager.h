@@ -18,7 +18,7 @@ public:
 
     Status initiate();
 
-    Status addQuestion(const QString &question_title_txt, const QString &question_txt, const QString &answer_txt, int topic_id);
+    Status addQuestion(int topic_id, const QString &question_title_txt, const QString &question_txt, const QString &answer_txt);
     Status addTopic(const QString &topic_name);
 
     std::shared_ptr<QList<flash_cards::Topic>> getTopics();

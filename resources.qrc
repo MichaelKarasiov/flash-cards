@@ -40,5 +40,9 @@
         <file>images/qt-logo@4x.png</file>
         <file>ui/ui_controller.cpp</file>
         <file>ui/ui_controller.h</file>
+        <file>TopicPage.qml</file>
+        <file>ScrollablePage.qml</file>
+        <file>AddQuestionPage.qml</file>
+        <file>BasicElements/Button.qml</file>
     </qresource>
 </RCC>

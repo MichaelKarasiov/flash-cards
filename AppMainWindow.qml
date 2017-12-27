@@ -5,13 +5,16 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Controls.Universal 2.1
 import Qt.labs.settings 1.0
 import Tester 1.0
+
 ApplicationWindow {
     id: window
     width: 360
     height: 520
     visible: true
     title: "Test yourself"
-
+    signal mainShowContentButtonClicked
+    signal mainAddContentButtonClicked
+    signal mainDeleteButtonClicked
     Settings {
         id: settings
         property string style: "Material"
@@ -26,140 +29,88 @@ ApplicationWindow {
         }
     }
 
-        header: ToolBar {
-            Material.foreground: "white"
+    header: ToolBar {
+        Material.foreground: "white"
 
-            RowLayout {
-                spacing: 20
-                anchors.fill: parent
-
-                ToolButton {
-                    contentItem: Image {
-                        fillMode: Image.Pad
-                        horizontalAlignment: Image.AlignHCenter
-                        verticalAlignment: Image.AlignVCenter
-                        source: stackView.depth > 1 ? "images/back.png" : "images/drawer.png"
-                    }
-                    onClicked: {
-                        if (stackView.depth > 1) {
-                            stackView.pop()
-                            listView.currentIndex = -1
-                        } else {
-                            drawer.open()
-                        }
-                    }
+        RowLayout {
+            spacing: 20
+            anchors.fill: parent
+            id: optionBar
+            ToolButton {
+                id: mainShowContentButton
+                visible: stackView.depth > 1
+                contentItem: Image {
+                    fillMode: Image.Pad
+                    horizontalAlignment: Image.AlignHCenter
+                    verticalAlignment: Image.AlignVCenter
+                    source:  "images/back.png"
                 }
-
-                Label {
-                    id: titleLabel
-                    text: listView.currentItem ? listView.currentItem.text : "Gallery"
-                    font.pixelSize: 20
-                    elide: Label.ElideRight
-                    horizontalAlignment: Qt.AlignHCenter
-                    verticalAlignment: Qt.AlignVCenter
-                    Layout.fillWidth: true
-                }
-
-                ToolButton {
-                    contentItem: Image {
-                        fillMode: Image.Pad
-                        horizontalAlignment: Image.AlignHCenter
-                        verticalAlignment: Image.AlignVCenter
-                        source: "images/menu.png"
-                    }
-                    onClicked: optionsMenu.open()
-
-                    Menu {
-                        id: optionsMenu
-                        x: parent.width - width
-                        transformOrigin: Menu.TopRight
-
-                        MenuItem {
-                            text: "Settings"
-                            onTriggered: settingsDialog.open()
-                        }
-                        MenuItem {
-                            text: "About"
-                            onTriggered: aboutDialog.open()
-                        }
-                    }
+                onClicked: {
+                    stackView.pop()
                 }
             }
+            ToolButton {
+                id: mainAddContentButton
+                contentItem: Image {
+                    fillMode: Image.Pad
+                    horizontalAlignment: Image.AlignHCenter
+                    verticalAlignment: Image.AlignVCenter
+                    source: "images/drawer.png"
+                }
+                onClicked: {
+                    mainAddContentButtonClicked()
+                }
+            }
+
+            ToolButton {
+                id: mainDeleteButton
+                contentItem: Image {
+                    fillMode: Image.Pad
+                    horizontalAlignment: Image.AlignHCenter
+                    verticalAlignment: Image.AlignVCenter
+                    source: "images/menu.png"
+                }
+                onClicked: {
+                    stackView.push(q_page);
+                    parent.visible = false;
+                }
+                //                    onClicked: optionsMenu.open()
+
+                //                    Menu {
+                //                        id: optionsMenu
+                //                        x: parent.width - width
+                //                        transformOrigin: Menu.TopRight
+
+                //                        MenuItem {
+                //                            text: "Settings"
+                //                            onTriggered: settingsDialog.open()
+                //                        }
+                //                        MenuItem {
+                //                            text: "About"
+                //                            onTriggered: aboutDialog.open()
+                //                        }
+                //                    }
+            }
         }
+    }
 
 
 
     StackView {
         id: stackView
-
         anchors.fill: parent
-
-        initialItem: Rectangle{
-            anchors.fill: parent
-
-            Column{
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width
-                spacing: parent.height/20
-                anchors.topMargin: parent.height/10
-                TextField
-                {
-                    id: q_title
-                    width: parent.width
-                    height: parent.height/10
-                    placeholderText: "Question Title"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.topMargin: parent.height/10
-                    horizontalAlignment: Qt.AlignHCenter
-                }
-
-                TextArea
-                {
-                    id: q_text
-                    placeholderText: "Question"
-                    width: parent.width
-                    //height: (q_title.height + parent.spacing*3 + accept_q_button.height) / 2
-                    height: stackView.height/3.3
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    horizontalAlignment: Qt.AlignHCenter
-                    wrapMode: Text.WordWrap
-                }
-                TextArea
-                {
-                    id: q_answer
-                    height: q_text.height
-                    width: parent.width
-                    placeholderText: "Answer"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    horizontalAlignment: Qt.AlignHCenter
-                    wrapMode: Text.WordWrap
-                }
-                Button
-                {
-                    id: accept_q_button
-                    height: q_title.height
-                    width: parent.width / 3
-                    text: "Save"
-                    highlighted: true
-
-                    anchors.horizontalCenter: parent.horizontalCenter
-
-                    onClicked:
-                    {
-                        if(MainActivity.add_q_data(q_title.text, q_text.text, q_answer.text))
-                        {
-                            console.log("adding question")
-                            q_title.clear()
-                            q_text.clear()
-                            q_answer.clear()
-                        }
-                        else window.color = "red"
-                    }
-                }
-
+        initialItem:
+            TopicPage
+        {
+            id: topicPage
+            onAddClicked: {
+                stackView.push(q_page)
+                mainShowContentButton.visible = true
             }
+            anchors.fill: parent
         }
     }
+    AddQuestionPage{id: q_page}
     //    Dialog {
     //        id: settingsDialog
     //        x: Math.round((window.width - width) / 2)
@@ -246,4 +197,5 @@ ApplicationWindow {
     //            }
     //        }
     //    }
+
 }
